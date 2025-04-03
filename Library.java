@@ -9,50 +9,50 @@ class Library
   private ArrayList<Books> bookList = new ArrayList<>();
   private ArrayList<CDs> cdList = new ArrayList<>();
 
-  private static int checkOutBook(int userId, int bookId)
+  private int checkOutBook(int userId, int bookId)
   {  
     return 0;
 
   }
 
-  private static int createUser(String userName, int userBirthYear)
+  private int createUser(String userName, int userBirthYear)
   {
     return 0;
 
   }
 
-  private static void storeData()
+  private void storeData()
   {
 
   }
 
-  private static void readData()
+  private void readData()
   {
 
   }
 
-  private static void removeUser(int userID)
+  private void removeUser(int userID)
   {
 
   }
 
-  private static int addBook(String title, String author, int pages, int quantity, String publishDate)
+  private int addBook(String title, String author, int pages, int quantity, String publishDate)
   {
     return 0;
 
   }
 
-  private static void removeBook(int bookID)
+  private void removeBook(int bookID)
   {
 
   }
 
-  private static int addCompactDisc(String name, int timeLength, String producingCompany, String releaseDate, int quantity)
+  private int addCompactDisc(String name, int timeLength, String producingCompany, String releaseDate, int quantity)
   {
     return 0;
   }
   
-  private static void removeCompactDisc(int compactDiscID)
+  private void removeCompactDisc(int compactDiscID)
   {
 
   }
@@ -65,7 +65,7 @@ public class Asset
     public String publishDate;
   }
   
-  public static String createID()
+  public String createID()
   {
     Random rand = new Random();
     StringBuilder new_ID = new StringBuilder();
@@ -108,12 +108,12 @@ public class Asset
       private boolean isReturned;
       private boolean isReturnedLate;
 
-      private static void returnBook()
+      private void returnBook()
       {
         
       }
 
-      private static void returnCompactDisc()
+      private void returnCompactDisc()
       {
 
       }
