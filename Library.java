@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 class Library
@@ -10,11 +11,13 @@ class Library
 
   private static int checkOutBook(int userId, int bookId)
   {  
+    return 0;
 
   }
 
   private static int createUser(String userName, int userBirthYear)
   {
+    return 0;
 
   }
 
@@ -35,6 +38,7 @@ class Library
 
   private static int addBook(String title, String author, int pages, int quantity, String publishDate)
   {
+    return 0;
 
   }
 
@@ -45,7 +49,7 @@ class Library
 
   private static int addCompactDisc(String name, int timeLength, String producingCompany, String releaseDate, int quantity)
   {
-
+    return 0;
   }
   
   private static void removeCompactDisc(int compactDiscID)
