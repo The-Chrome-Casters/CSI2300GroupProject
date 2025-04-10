@@ -213,9 +213,3 @@ public class JavaFX_Display extends Application {
         addBookStage.show();
     }
 }
- 
-        cdPane.getChildren().addAll(backButton, addCD, removeCD, checkoutCD, returnCD);
-        Scene userScene = new Scene(cdPane, 1000, 700);
-        primaryStage.setScene(userScene);
-    }
-}
