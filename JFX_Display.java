@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class JavaFX_Display extends Application {
+public class JFX_Display extends Application {
     public static void main(String[] args) {
         launch(args);
     }
