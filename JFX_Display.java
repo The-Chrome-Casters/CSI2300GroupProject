@@ -58,6 +58,7 @@ public class JFX_Display extends Application {
         Button addUser = new Button("Add New User");
         addUser.setLayoutX(150);
         addUser.setLayoutY(300);
+        addUser.setOnAction(e -> addUser(primaryStage));
 
         Button removeUser = new Button("Remove Existing User");
         removeUser.setLayoutX(450);
@@ -111,6 +112,7 @@ public class JFX_Display extends Application {
         Button addCD = new Button("Add CD");
         addCD.setLayoutX(150);
         addCD.setLayoutY(300);
+        addCD.setOnAction(e -> addCD(primaryStage));
 
         Button removeCD = new Button("Remove CD");
         removeCD.setLayoutX(350);
@@ -208,8 +210,144 @@ public class JFX_Display extends Application {
             } 
         });
 
-        Scene scene = new Scene(addBookGrid, 300, 250);
+        Scene scene = new Scene(addBookGrid, 300, 300);
         addBookStage.setScene(scene);
         addBookStage.show();
+    }
+
+    private void addCD(Stage primaryStage) {
+        Stage addCDStage = new Stage();
+        addCDStage.setTitle("Add CD Info");
+
+        GridPane addCDGrid = new GridPane();
+        addCDGrid.setVgap(10);
+        addCDGrid.setHgap(10);
+        addCDGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label titleLabel = new Label ("Title: ");
+        TextField titleField = new TextField();
+
+        Label authorLabel = new Label ("Author: ");
+        TextField authorField = new TextField();
+
+        Label timeLabel = new Label ("Time Length (In Minutes): ");
+        TextField timeField = new TextField();
+
+        Label quantityLabel = new Label ("Quantity: ");
+        TextField quantityField = new TextField();
+
+        Label publishDateLabel = new Label ("Publish Date: ");
+        TextField publishDateField = new TextField();
+
+        Label productionCompanyLabel = new Label ("Production Company : ");
+        TextField productionCompanyField = new TextField();
+
+        addCDGrid.add(titleLabel, 0, 0);
+        addCDGrid.add(titleField, 1, 0);
+
+        addCDGrid.add(authorLabel, 0, 1);
+        addCDGrid.add(authorField, 1, 1);
+
+        addCDGrid.add(timeLabel, 0, 2);
+        addCDGrid.add(timeField, 1, 2);
+
+        addCDGrid.add(quantityLabel, 0, 3);
+        addCDGrid.add(quantityField, 1, 3);
+
+        addCDGrid.add(publishDateLabel, 0, 4);
+        addCDGrid.add(publishDateField, 1, 4);
+
+        addCDGrid.add(productionCompanyLabel, 0, 5);
+        addCDGrid.add(productionCompanyField, 1, 5);
+
+        Button finishButton = new Button ("Finish");
+        addCDGrid.add(finishButton, 1, 6);
+        finishButton.setOnAction (e -> {
+            try {
+                addCDStage.close();
+                String title = titleField.getText();
+                String author = authorField.getText();
+                int timeCount = Integer.parseInt(timeField.getText());
+                int quantity = Integer.parseInt(quantityField.getText());
+                String publishDate = publishDateField.getText();
+                String productionCompany = productionCompanyField.getText();
+
+                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                infoAlert.setTitle("CD Information");
+                infoAlert.setHeaderText("New CD Added:");
+                infoAlert.setContentText(
+                "Title: " + title + "\n" +
+                "Author: " + author + "\n" +
+                "Time Count: " + timeCount + " minutes" +"\n" +
+                "Quantity: " + quantity + "\n" +
+                "Publish Date: " + publishDate + "\n" +
+                "Product Company: " + productionCompany
+            );
+            infoAlert.showAndWait();
+
+            } catch (Exception ex) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setTitle("Invalid Input");
+                errorAlert.setHeaderText("Number Format Error");
+                errorAlert.setContentText("You have entered some information improperly.");
+                errorAlert.showAndWait();
+            } 
+        });
+
+        Scene scene = new Scene(addCDGrid, 300, 300);
+        addCDStage.setScene(scene);
+        addCDStage.show();
+    }
+
+    private void addUser(Stage primaryStage) {
+        Stage addUserStage = new Stage();
+        addUserStage.setTitle("Add User Info");
+
+        GridPane addUserGrid = new GridPane();
+        addUserGrid.setVgap(10);
+        addUserGrid.setHgap(10);
+        addUserGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("Name(First and Last) : ");
+        TextField nameField = new TextField();
+
+        Label ageLabel = new Label ("Age: ");
+        TextField ageField = new TextField();
+
+        addUserGrid.add(nameLabel, 0, 0);
+        addUserGrid.add(nameField, 1, 0);
+
+        addUserGrid.add(ageLabel, 0, 1);
+        addUserGrid.add(ageField, 1, 1);
+
+        Button finishButton = new Button ("Finish");
+        addUserGrid.add(finishButton, 1, 2);
+        finishButton.setOnAction (e -> {
+            try {
+                addUserStage.close();
+                String name = nameField.getText();
+                int age = Integer.parseInt(ageField.getText());
+
+                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                infoAlert.setTitle("User Information");
+                infoAlert.setHeaderText("New User Added:");
+                infoAlert.setContentText(
+                "Name: " + name + "\n" +
+                "Age: " + age + "\n"
+            );
+            infoAlert.showAndWait();
+
+            } catch (Exception ex) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setTitle("Invalid Input");
+                errorAlert.setHeaderText("Number Format Error");
+                errorAlert.setContentText("You have entered some information improperly.");
+                errorAlert.showAndWait();
+            } 
+        });
+
+        Scene scene = new Scene(addUserGrid, 300, 200);
+        addUserStage.setScene(scene);
+        addUserStage.show();
     }
 }
