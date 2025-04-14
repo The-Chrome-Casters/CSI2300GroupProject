@@ -9,6 +9,75 @@ class Library
   private ArrayList<Books> bookList = new ArrayList<>();
   private ArrayList<CDs> cdList = new ArrayList<>();
 
+  private void SearchUsers(ArrayList<Users> userList, String name)
+  {
+    boolean IsFound = false;
+
+    for (User user : userList)
+    {
+      if (user.Name == name)
+      {
+                  
+        IsFound = true;
+        break;   
+      }
+      else
+      {
+        continue;
+      }
+    }
+    if (IsFound == false)
+    {
+      System.out.println("User Not Found");
+    }
+  }
+
+  private void SearchBooks(ArrayList<Book> bookList, String name)
+  {
+    boolean IsFound = false;
+
+    for (CDs cd : cdList)
+    {
+      if (user.Name == name)
+      {
+                  
+        IsFound = true;
+        break;   
+      }
+      else
+      {
+        continue;
+      }
+    }
+    if (IsFound == false)
+    {
+      System.out.println("CD Not Found");
+    }
+  }
+
+  private void SearchCDs(ArrayList<CDs> cdList, String name)
+  {
+    boolean UserIsFound = false;
+
+    for (User user : userList)
+    {
+      if (user.Name == name)
+      {
+                  
+        bookIsFound = true;
+        break;   
+      }
+      else
+      {
+        continue;
+      }
+    }
+    if (UserIsFound == false)
+    {
+      System.out.println("User Not Found");
+    }
+  }
+  
   private int checkOutBook(int userId, int bookId)
   {  
     return 0;
