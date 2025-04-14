@@ -63,10 +63,12 @@ public class JFX_Display extends Application {
         Button removeUser = new Button("Remove Existing User");
         removeUser.setLayoutX(450);
         removeUser.setLayoutY(300);
+        removeUser.setOnAction(e -> removeUser(primaryStage));
 
         Button userHistory = new Button("View User Checkouts");
         userHistory.setLayoutX(750);
         userHistory.setLayoutY(300);
+        userHistory.setOnAction(e -> userCheckout(primaryStage));
  
         userPane.getChildren().addAll(backButton, addUser, removeUser, userHistory);
         Scene userScene = new Scene(userPane, 1000, 700);
@@ -88,14 +90,17 @@ public class JFX_Display extends Application {
         Button removeBook = new Button("Remove Book");
         removeBook.setLayoutX(350);
         removeBook.setLayoutY(300);
+        removeBook.setOnAction(e -> removeBook(primaryStage));
 
         Button checkoutBook = new Button("Check Out Book");
         checkoutBook.setLayoutX(550);
         checkoutBook.setLayoutY(300);
+        checkoutBook.setOnAction(e -> checkoutBook(primaryStage));
 
         Button returnBook = new Button("Return Book");
         returnBook.setLayoutX(750);
         returnBook.setLayoutY(300);
+        returnBook.setOnAction(e -> returnBook(primaryStage));
  
         bookPane.getChildren().addAll(backButton, addBook, removeBook, checkoutBook, returnBook);
         Scene userScene = new Scene(bookPane, 1000, 700);
@@ -117,14 +122,17 @@ public class JFX_Display extends Application {
         Button removeCD = new Button("Remove CD");
         removeCD.setLayoutX(350);
         removeCD.setLayoutY(300);
+        removeCD.setOnAction(e -> removeCD(primaryStage));
 
         Button checkoutCD = new Button("Check Out CD");
         checkoutCD.setLayoutX(550);
         checkoutCD.setLayoutY(300);
+        checkoutCD.setOnAction(e -> checkoutCD(primaryStage));
 
         Button returnCD = new Button("Return CD");
         returnCD.setLayoutX(750);
         returnCD.setLayoutY(300);
+        returnCD.setOnAction(e -> returnCD(primaryStage));
  
         cdPane.getChildren().addAll(backButton, addCD, removeCD, checkoutCD, returnCD);
         Scene userScene = new Scene(cdPane, 1000, 700);
@@ -210,7 +218,7 @@ public class JFX_Display extends Application {
             } 
         });
 
-        Scene scene = new Scene(addBookGrid, 300, 300);
+        Scene scene = new Scene(addBookGrid, 400, 300);
         addBookStage.setScene(scene);
         addBookStage.show();
     }
@@ -294,7 +302,7 @@ public class JFX_Display extends Application {
             } 
         });
 
-        Scene scene = new Scene(addCDGrid, 300, 300);
+        Scene scene = new Scene(addCDGrid, 400, 300);
         addCDStage.setScene(scene);
         addCDStage.show();
     }
@@ -308,7 +316,7 @@ public class JFX_Display extends Application {
         addUserGrid.setHgap(10);
         addUserGrid.setPadding(new javafx.geometry.Insets(10));
 
-        Label nameLabel = new Label ("Name(First and Last) : ");
+        Label nameLabel = new Label ("Name (First and Last) : ");
         TextField nameField = new TextField();
 
         Label ageLabel = new Label ("Age: ");
@@ -346,8 +354,204 @@ public class JFX_Display extends Application {
             } 
         });
 
-        Scene scene = new Scene(addUserGrid, 300, 200);
+        Scene scene = new Scene(addUserGrid, 400, 200);
         addUserStage.setScene(scene);
         addUserStage.show();
+    }
+
+    private void removeUser(Stage primaryStage) {
+        Stage removeUserStage = new Stage();
+        removeUserStage.setTitle("Remove User Info");
+        GridPane removeUserGrid = new GridPane();
+
+        removeUserGrid.setVgap(20);
+        removeUserGrid.setHgap(10);
+        removeUserGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("Name (First and Last) : ");
+        TextField nameField = new TextField();
+        removeUserGrid.add(nameLabel, 0, 0);
+        removeUserGrid.add(nameField, 1, 0);
+
+        Button finishButton = new Button ("Finish");
+        removeUserGrid.add(finishButton, 1, 1);
+
+        Scene scene = new Scene(removeUserGrid, 400, 100);
+        removeUserStage.setScene(scene);
+        removeUserStage.show();
+    }
+
+    private void removeBook(Stage primaryStage) {
+        Stage removeBookStage = new Stage();
+        removeBookStage.setTitle("Remove Book Info");
+        GridPane removeBookGrid = new GridPane();
+
+        removeBookGrid.setVgap(20);
+        removeBookGrid.setHgap(10);
+        removeBookGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("Title : ");
+        TextField nameField = new TextField();
+        removeBookGrid.add(nameLabel, 0, 0);
+        removeBookGrid.add(nameField, 1, 0);
+
+        Button finishButton = new Button ("Finish");
+        removeBookGrid.add(finishButton, 1, 1);
+
+        Scene scene = new Scene(removeBookGrid, 400, 100);
+        removeBookStage.setScene(scene);
+        removeBookStage.show();
+    }
+
+    private void removeCD(Stage primaryStage) {
+        Stage removeCDStage = new Stage();
+        removeCDStage.setTitle("Remove CD Info");
+        GridPane removeCDGrid = new GridPane();
+
+        removeCDGrid.setVgap(20);
+        removeCDGrid.setHgap(10);
+        removeCDGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("Title : ");
+        TextField nameField = new TextField();
+        removeCDGrid.add(nameLabel, 0, 0);
+        removeCDGrid.add(nameField, 1, 0);
+
+        Button finishButton = new Button ("Finish");
+        removeCDGrid.add(finishButton, 1, 1);
+
+        Scene scene = new Scene(removeCDGrid, 400, 100);
+        removeCDStage.setScene(scene);
+        removeCDStage.show();
+    }
+
+    private void userCheckout(Stage primaryStage) {
+        Stage userCheckoutStage = new Stage();
+        userCheckoutStage.setTitle("User Information: ");
+        GridPane userCheckoutGrid = new GridPane();
+
+        userCheckoutGrid.setVgap(20);
+        userCheckoutGrid.setHgap(10);
+        userCheckoutGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("Name (First and Last) : ");
+        TextField nameField = new TextField();
+        userCheckoutGrid.add(nameLabel, 0, 0);
+        userCheckoutGrid.add(nameField, 1, 0);
+
+        Button finishButton = new Button ("Finish");
+        userCheckoutGrid.add(finishButton, 1, 1);
+
+        Scene scene = new Scene(userCheckoutGrid, 400, 100);
+        userCheckoutStage.setScene(scene);
+        userCheckoutStage.show();
+    }
+
+    private void checkoutBook(Stage primaryStage) {
+        Stage checkoutBookStage = new Stage();
+        checkoutBookStage.setTitle("Checkout Information: ");
+        GridPane checkoutBookGrid = new GridPane();
+
+        checkoutBookGrid.setVgap(20);
+        checkoutBookGrid.setHgap(10);
+        checkoutBookGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label titleLabel = new Label ("Title : ");
+        TextField titleField = new TextField();
+        checkoutBookGrid.add(titleLabel, 0, 0);
+        checkoutBookGrid.add(titleField, 1, 0);
+
+        Label nameLabel = new Label ("Name of User: ");
+        TextField nameField = new TextField();
+        checkoutBookGrid.add(nameLabel, 0, 1);
+        checkoutBookGrid.add(nameField, 1, 1);
+
+        Button finishButton = new Button ("Finish");
+        checkoutBookGrid.add(finishButton, 1, 2);
+
+        Scene scene = new Scene(checkoutBookGrid, 400, 200);
+        checkoutBookStage.setScene(scene);
+        checkoutBookStage.show();
+    }
+
+    private void checkoutCD(Stage primaryStage) {
+        Stage checkoutCDStage = new Stage();
+        checkoutCDStage.setTitle("Checkout Information: ");
+        GridPane checkoutCDGrid = new GridPane();
+
+        checkoutCDGrid.setVgap(20);
+        checkoutCDGrid.setHgap(10);
+        checkoutCDGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label titleLabel = new Label ("Title : ");
+        TextField titleField = new TextField();
+        checkoutCDGrid.add(titleLabel, 0, 0);
+        checkoutCDGrid.add(titleField, 1, 0);
+
+        Label nameLabel = new Label ("Name of User: ");
+        TextField nameField = new TextField();
+        checkoutCDGrid.add(nameLabel, 0, 1);
+        checkoutCDGrid.add(nameField, 1, 1);
+
+        Button finishButton = new Button ("Finish");
+        checkoutCDGrid.add(finishButton, 1, 2);
+
+        Scene scene = new Scene(checkoutCDGrid, 400, 200);
+        checkoutCDStage.setScene(scene);
+        checkoutCDStage.show();
+    }
+
+    private void returnBook(Stage primaryStage) {
+        Stage returnBookStage = new Stage();
+        returnBookStage.setTitle("Return Information: ");
+        GridPane returnBookGrid = new GridPane();
+
+        returnBookGrid.setVgap(20);
+        returnBookGrid.setHgap(10);
+        returnBookGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label titleLabel = new Label ("Title : ");
+        TextField titleField = new TextField();
+        returnBookGrid.add(titleLabel, 0, 0);
+        returnBookGrid.add(titleField, 1, 0);
+
+        Label nameLabel = new Label ("Name of User: ");
+        TextField nameField = new TextField();
+        returnBookGrid.add(nameLabel, 0, 1);
+        returnBookGrid.add(nameField, 1, 1);
+
+        Button finishButton = new Button ("Finish");
+        returnBookGrid.add(finishButton, 1, 2);
+
+        Scene scene = new Scene(returnBookGrid, 400, 200);
+        returnBookStage.setScene(scene);
+        returnBookStage.show();
+    }
+
+    private void returnCD(Stage primaryStage) {
+        Stage returnCDStage = new Stage();
+        returnCDStage.setTitle("Return Information: ");
+        GridPane returnCDGrid = new GridPane();
+
+        returnCDGrid.setVgap(20);
+        returnCDGrid.setHgap(10);
+        returnCDGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label titleLabel = new Label ("Title : ");
+        TextField titleField = new TextField();
+        returnCDGrid.add(titleLabel, 0, 0);
+        returnCDGrid.add(titleField, 1, 0);
+
+        Label nameLabel = new Label ("Name of User: ");
+        TextField nameField = new TextField();
+        returnCDGrid.add(nameLabel, 0, 1);
+        returnCDGrid.add(nameField, 1, 1);
+
+        Button finishButton = new Button ("Finish");
+        returnCDGrid.add(finishButton, 1, 2);
+
+        Scene scene = new Scene(returnCDGrid, 400, 200);
+        returnCDStage.setScene(scene);
+        returnCDStage.show();
     }
 }
