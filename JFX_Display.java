@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class JFX_Display extends Application {
+    Library lib = new Library();
     public static void main(String[] args) {
         launch(args);
     }
