@@ -1,3 +1,10 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,6 +16,28 @@ class Library {
     Library() {
         users = new UserHandler();
         items = new ItemHandler();
+    }
+
+    void saveDatabase() throws IOException {
+        FileOutputStream usersFout = new FileOutputStream ("users");
+        FileOutputStream itemsFout = new FileOutputStream ("items");
+        ObjectOutputStream usersOOS = new ObjectOutputStream(usersFout);
+        ObjectOutputStream itemsOOS = new ObjectOutputStream(itemsFout);
+        usersOOS.writeObject(users);
+        itemsOOS.writeObject(items);
+        usersFout.close();
+        itemsFout.close();
+    }
+
+    void loadDatabase() throws IOException, ClassNotFoundException {
+        FileInputStream usersFin = new FileInputStream ("users");
+        FileInputStream itemsFin = new FileInputStream ("items");
+        ObjectInputStream usersOIS = new ObjectInputStream(usersFin);
+        ObjectInputStream itemsOIS = new ObjectInputStream(itemsFin);
+        users = (UserHandler)usersOIS.readObject();
+        items = (ItemHandler)itemsOIS.readObject();
+        usersFin.close();
+        itemsFin.close();
     }
   
 
@@ -27,7 +56,7 @@ class Library {
 
         public User findUser(String name) {
             for (User user : userList) {
-                if (user.name == name) {
+                if (user.name.equals(name)) {
                     return user;
                 }
             }
@@ -69,16 +98,16 @@ class Library {
 
         public Item findItem(String title) {
             for (Item item : itemList) {
-                if (item.title == title) {
+                if (item.title.equals(title)) {
                     return item;
                 }
             }
             return null;
         }
 
-        public int addItem(ItemType type, String title, String author) {
+        public int addItem(ItemType type, String title) {
             int newid = lastItemID++;
-            Item newItem = new Item(null, newid, title, author);
+            Item newItem = new Item(null, newid, title);
             itemList.add(newItem);
             return newid;
         }
@@ -120,15 +149,19 @@ class Library {
         public int timeLength; // minutes
         public String productionCompany;
 
-        Item(ItemType type, int id, String title, String author) {
+        Item(ItemType type, int id, String title) {
             this.id = id;
             this.type = type;
             this.title = title;
-            this.author = author;
         }
 
-        void setBookData() {
+        void setCDData(int timeLength, String productionCompany) {
+            this.timeLength = timeLength;
+            this.productionCompany = productionCompany;
+        }
 
+        void setBookData(String author) {
+            this.author = author;
         }
     }
 
@@ -167,6 +200,10 @@ class Library {
             checkouts.add(newCheckout);
             // return newid;
         }
+
+        public void returnItem(int checkoutID) {
+
+        }
     }
 
     class Checkout {
@@ -174,6 +211,7 @@ class Library {
         public int itemID;
         public LocalDateTime checkoutTime;
         public LocalDateTime returnTime;
+        public Duration checkoutTimeLimit;
         public boolean isReturned = false;
         public boolean isReturnedLate = false;
 
@@ -181,12 +219,17 @@ class Library {
             this.userID = userID;
             this.itemID = itemID;
             this.checkoutTime = LocalDateTime.now();
+            this.checkoutTimeLimit = Duration.ofDays(10);
         }
 
         // Run when user returned item
-        void returnBook() {
+        void returnItem() {
             this.returnTime = LocalDateTime.now();
             this.isReturned = true;
+
+            if (this.returnTime.isAfter(this.checkoutTime.plus(this.checkoutTimeLimit))) {
+                this.isReturnedLate = true;
+            }
         }
 
 

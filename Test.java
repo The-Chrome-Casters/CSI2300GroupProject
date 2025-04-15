@@ -20,9 +20,9 @@ public class Test {
                 break;
                 case "add":
                     n = lib.users.addUser("test", 1708);
-                    n = lib.items.addItem(Library.ItemType.BOOK, "title", "author");
-                    n = lib.items.addItem(Library.ItemType.CD, "ti2tle", "autho1r");
-                    n = lib.items.addItem(Library.ItemType.CD, "ti42tle", "autho1r");
+                    n = lib.items.addItem(Library.ItemType.BOOK, "title");
+                    n = lib.items.addItem(Library.ItemType.CD, "ti2tle");
+                    n = lib.items.addItem(Library.ItemType.CD, "ti42tle");
                     lib.items.removeItem(n);
                 break;
                 case "find":
