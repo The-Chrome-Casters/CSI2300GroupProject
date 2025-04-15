@@ -6,6 +6,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,7 +21,12 @@ public class JFX_Display extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Library System");
         primaryStage.setWidth(1000);
-        primaryStage.setHeight(700);
+        primaryStage.setHeight(500);
+
+        Label welcome = new Label ("Welcome To Our Library Management System. What Do You Want to Edit?");
+        welcome.setFont(new Font("Arial", 24));
+        welcome.setLayoutX(80);
+        welcome.setLayoutY(150);
 
         Button but_user = new Button("Manage Users");
         but_user.setLayoutX(150);
@@ -43,7 +49,7 @@ public class JFX_Display extends Application {
         but_close.setOnAction(e -> Platform.exit());
 
         Pane root = new Pane();
-        root.getChildren().addAll(but_user, but_book, but_cd, but_close);
+        root.getChildren().addAll(but_user, but_book, but_cd, but_close, welcome);
 
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
@@ -51,6 +57,12 @@ public class JFX_Display extends Application {
 
     private void openUserScene(Stage primaryStage) {
         Pane userPane = new Pane();
+
+        Label welcome = new Label ("How Would You Like To Manage Users?");
+        welcome.setFont(new Font("Arial", 24));
+        welcome.setLayoutX(280);
+        welcome.setLayoutY(150);
+
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> start(primaryStage));
         backButton.setLayoutX(20);
@@ -71,13 +83,19 @@ public class JFX_Display extends Application {
         userHistory.setLayoutY(300);
         userHistory.setOnAction(e -> userCheckout(primaryStage));
  
-        userPane.getChildren().addAll(backButton, addUser, removeUser, userHistory);
+        userPane.getChildren().addAll(backButton, addUser, removeUser, userHistory, welcome);
         Scene userScene = new Scene(userPane, 1000, 700);
         primaryStage.setScene(userScene);
     }
 
     private void openBookScene(Stage primaryStage) {
         Pane bookPane = new Pane();
+
+        Label welcome = new Label ("How Would You Like to Manage Books?");
+        welcome.setFont(new Font("Arial", 24));
+        welcome.setLayoutX(280);
+        welcome.setLayoutY(150);
+
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> start(primaryStage));
         backButton.setLayoutX(20);
@@ -103,13 +121,19 @@ public class JFX_Display extends Application {
         returnBook.setLayoutY(300);
         returnBook.setOnAction(e -> returnBook(primaryStage));
  
-        bookPane.getChildren().addAll(backButton, addBook, removeBook, checkoutBook, returnBook);
+        bookPane.getChildren().addAll(backButton, addBook, removeBook, checkoutBook, returnBook, welcome);
         Scene userScene = new Scene(bookPane, 1000, 700);
         primaryStage.setScene(userScene);
     }
 
     private void openCDScene(Stage primaryStage) {
         Pane cdPane = new Pane();
+
+        Label welcome = new Label ("How Would You Like to Manage CD's / DVD's?");
+        welcome.setFont(new Font("Arial", 24));
+        welcome.setLayoutX(250);
+        welcome.setLayoutY(150);
+
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> start(primaryStage));
         backButton.setLayoutX(20);
@@ -135,7 +159,7 @@ public class JFX_Display extends Application {
         returnCD.setLayoutY(300);
         returnCD.setOnAction(e -> returnCD(primaryStage));
  
-        cdPane.getChildren().addAll(backButton, addCD, removeCD, checkoutCD, returnCD);
+        cdPane.getChildren().addAll(backButton, addCD, removeCD, checkoutCD, returnCD, welcome);
         Scene userScene = new Scene(cdPane, 1000, 700);
         primaryStage.setScene(userScene);
     }
@@ -337,14 +361,22 @@ public class JFX_Display extends Application {
                 String name = nameField.getText();
                 int age = Integer.parseInt(ageField.getText());
 
-                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
-                infoAlert.setTitle("User Information");
-                infoAlert.setHeaderText("New User Added:");
-                infoAlert.setContentText(
-                "Name: " + name + "\n" +
-                "Age: " + age + "\n"
-            );
-            infoAlert.showAndWait();
+                if (lib.users.findUser(name) == null) {
+                    int id = lib.users.addUser(name, age);
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("User Information");
+                    infoAlert.setHeaderText("New User Added:");
+                    infoAlert.setContentText("Name: " + name + "\n" + "Age: " + age + "\n" + "ID: " + id + "\n");
+                    infoAlert.showAndWait();
+                } else {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("User Already Exists");
+                    aAlert.setHeaderText("The Users Name You Inputted Already Exists");
+                    aAlert.showAndWait();
+                }
+
+                
+            
 
             } catch (Exception ex) {
                 Alert errorAlert = new Alert(AlertType.ERROR);
@@ -376,6 +408,36 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         removeUserGrid.add(finishButton, 1, 1);
+        finishButton.setOnAction (e -> {
+            try {
+                removeUserStage.close();
+                String name = nameField.getText();
+
+                if (lib.users.findUser(name) != null) {
+                    lib.users.removeUser(lib.users.findUser(name).id);
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Successful");
+                    infoAlert.setHeaderText("You Successfully Removed the User: " + name);
+                    infoAlert.showAndWait();
+                } else {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("User Doesn't Exist");
+                    aAlert.setHeaderText("The User You Inputted Does Not Exist, and Thus Cannot Be Deleted.");
+                    aAlert.showAndWait();
+                }
+
+                
+            
+
+            } catch (Exception ex) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setTitle("Invalid Input");
+                errorAlert.setHeaderText("Number Format Error");
+                errorAlert.setContentText("You have entered some information improperly.");
+                errorAlert.showAndWait();
+            } 
+        });
+        
 
         Scene scene = new Scene(removeUserGrid, 400, 100);
         removeUserStage.setScene(scene);
