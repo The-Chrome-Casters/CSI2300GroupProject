@@ -362,7 +362,7 @@ public class JFX_Display extends Application {
                 int age = Integer.parseInt(ageField.getText());
 
                 if (lib.users.findUser(name) == null) {
-                    int id = lib.users.addUser(name, age);
+                    int id = lib.users.addUser(name, age).id;
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("User Information");
                     infoAlert.setHeaderText("New User Added:");
