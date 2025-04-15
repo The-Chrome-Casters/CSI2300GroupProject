@@ -19,11 +19,14 @@ public class Test {
                     run = false;
                 break;
                 case "add":
-                    n = lib.users.createUser("test", 1708);
-                    lib.items.addItem(Library.ItemType.BOOK, "title", "author");
+                    n = lib.users.addUser("test", 1708);
+                    n = lib.items.addItem(Library.ItemType.BOOK, "title", "author");
+                    n = lib.items.addItem(Library.ItemType.CD, "ti2tle", "autho1r");
+                    n = lib.items.addItem(Library.ItemType.CD, "ti42tle", "autho1r");
+                    lib.items.removeItem(n);
                 break;
                 case "find":
-                    System.out.println(lib.users.findUser(n).name);
+                    System.out.println(lib.items.findItem(n).title);
                 break;
             }
 

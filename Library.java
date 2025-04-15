@@ -34,10 +34,23 @@ class Library {
             return null;
         }
 
-        public int createUser(String name, int birthYear) {
-            User newUser = new User(lastUserID++, name, birthYear);
+        public int addUser(String name, int birthYear) {
+            int newid = lastUserID++;
+            User newUser = new User(newid, name, birthYear);
             userList.add(newUser);
-            return lastUserID;
+            return newid;
+        }
+
+        public void removeUser(int id) {
+            for (User user : userList) {
+                System.out.println(user.id);
+                System.out.println(id);
+                if (user.id == id && userList.contains(user)) {
+                    userList.remove(user);
+                    System.out.println("Removed user");
+                    break; // IMPORTANT
+                }
+            }
         }
     }
 
@@ -64,33 +77,26 @@ class Library {
         }
 
         public int addItem(ItemType type, String title, String author) {
-            Item newItem = new Item(null, lastItemID++, title, author);
+            int newid = lastItemID++;
+            Item newItem = new Item(null, newid, title, author);
             itemList.add(newItem);
-            return lastItemID;
+            return newid;
         }
 
-        public void deleteItem(int id) {
+        public void removeItem(int id) {
             for (Item item : itemList) {
+                System.out.println(item.id);
+                System.out.println(id);
                 if (item.id == id && itemList.contains(item)) {
                     itemList.remove(item);
+                    System.out.println("Removed item");
+                    break; // IMPORTANT
                 }
             }
         }
     }
 
-    class CheckoutHandler {
-        ArrayList<Checkout> checkouts = new ArrayList<>();
-        int lastCheckoutID = 0;
-
-        public Checkout findCheckout(int id) {
-            for (Checkout checkout : checkouts) {
-                if (checkout.id == id) {
-                    return checkout;
-                }
-            }
-            return null;
-        }
-    }
+    
 
     enum ItemType {
         DEFAULT,
@@ -141,27 +147,48 @@ class Library {
         }
     }
 
+    class CheckoutHandler {
+        ArrayList<Checkout> checkouts = new ArrayList<>();
+        // int lastCheckoutID = 0;
+
+        public ArrayList<Checkout> findUserCheckouts(int userID) {
+            ArrayList<Checkout> userCheckouts = new ArrayList<>();
+            for (Checkout checkout : checkouts) {
+                if (checkout.userID == userID) {
+                    userCheckouts.add(checkout);
+                }
+            }
+            return userCheckouts;
+        }
+
+        public void checkoutItem(int userID, int itemID) {
+            // int newid = lastItemID++;
+            Checkout newCheckout = new Checkout(userID, itemID);
+            checkouts.add(newCheckout);
+            // return newid;
+        }
+    }
 
     class Checkout {
-        public int id;
         public int userID;
-        public int assetID;
-        public LocalDate checkoutTime;
-        public LocalDate returnTime;
-        public boolean isReturned;
-        public boolean isReturnedLate;
+        public int itemID;
+        public LocalDateTime checkoutTime;
+        public LocalDateTime returnTime;
+        public boolean isReturned = false;
+        public boolean isReturnedLate = false;
 
-        Checkout(int id, int userID, int assetID) {
-
+        Checkout(int userID, int itemID) {
+            this.userID = userID;
+            this.itemID = itemID;
+            this.checkoutTime = LocalDateTime.now();
         }
 
+        // Run when user returned item
         void returnBook() {
-
+            this.returnTime = LocalDateTime.now();
+            this.isReturned = true;
         }
 
-        void returnCompactDisc() {
-
-        }
 
     }
 }
