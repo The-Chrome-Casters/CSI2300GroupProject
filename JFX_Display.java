@@ -27,6 +27,7 @@ public class JFX_Display extends Application {
             ObjectOutputStream libOOS = new ObjectOutputStream(libOut);
             libOOS.writeObject(lib);
             libOut.close();
+            System.out.println("Saved library");
         } catch (IOException e ){
             System.out.println("Could not save library");
         }
@@ -38,6 +39,11 @@ public class JFX_Display extends Application {
             ObjectInputStream checkOIS = new ObjectInputStream(libIn);
             lib = (Library)checkOIS.readObject();
             libIn.close();
+            int numberOfUsers = lib.users.userList.size();
+            int numberOfItems = lib.items.itemList.size();
+            int numberOfCheckouts = lib.checkouts.checkouts.size();
+            System.out.println(String.format("Loaded %d users, %d items, %d checkouts from database", 
+                numberOfUsers, numberOfItems, numberOfCheckouts));
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Could not load library");
         }
@@ -80,7 +86,7 @@ public class JFX_Display extends Application {
         but_close.setOnAction(e -> Platform.exit());
 
         Button but_save = new Button("Save");
-        but_save.setLayoutX(120);
+        but_save.setLayoutX(20);
         but_save.setLayoutY(20);
         but_save.setOnAction(e -> saveLibrary());
 
