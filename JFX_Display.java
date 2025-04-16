@@ -49,6 +49,7 @@ public class JFX_Display extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        loadLibrary();
         primaryStage.setTitle("Library System");
         primaryStage.setWidth(1000);
         primaryStage.setHeight(500);
@@ -78,8 +79,13 @@ public class JFX_Display extends Application {
         but_close.setLayoutY(20);
         but_close.setOnAction(e -> Platform.exit());
 
+        Button but_save = new Button("Save");
+        but_save.setLayoutX(120);
+        but_save.setLayoutY(20);
+        but_save.setOnAction(e -> saveLibrary());
+
         Pane root = new Pane();
-        root.getChildren().addAll(but_user, but_book, but_cd, but_close, welcome);
+        root.getChildren().addAll(but_user, but_book, but_cd, but_close, welcome, but_save);
 
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
@@ -763,6 +769,33 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         returnBookGrid.add(finishButton, 1, 2);
+        finishButton.setOnAction(e -> {
+            returnBookStage.close();
+            String name = nameField.getText();
+            String title = titleField.getText();
+
+            if (lib.users.findUser(name) == null || lib.items.findItem(title) == null) {
+                Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                aAlert.setTitle("User / Title Doesn't Exist");
+                aAlert.setHeaderText("The User or Book Title You Inputted Doesn't Exist. Please Ensure Your Entering Proper Information.");
+                aAlert.showAndWait();
+            } else {
+                try {
+                    lib.checkouts.findCheckout(lib.users.findUser(name), lib.items.findItem(title)).returnItem();
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Return Book");
+                    infoAlert.setHeaderText(name + " Returned " + title);
+                    infoAlert.setContentText("The User: " + name + " successfully Returned the Book: " + title + ".");
+                    infoAlert.showAndWait();
+                } catch (Exception ex) {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Failed To Return Book");
+                    aAlert.setHeaderText("Error: The User Was Unable To Return the Book.");
+                    aAlert.showAndWait();
+                }
+            }
+        });
+        
 
         Scene scene = new Scene(returnBookGrid, 400, 200);
         returnBookStage.setScene(scene);
@@ -790,6 +823,32 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         returnCDGrid.add(finishButton, 1, 2);
+        finishButton.setOnAction(e -> {
+            returnCDStage.close();
+            String name = nameField.getText();
+            String title = titleField.getText();
+
+            if (lib.users.findUser(name) == null || lib.items.findItem(title) == null) {
+                Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                aAlert.setTitle("User / Title Doesn't Exist");
+                aAlert.setHeaderText("The User or CD Title You Inputted Doesn't Exist. Please Ensure Your Entering Proper Information.");
+                aAlert.showAndWait();
+            } else {
+                try {
+                    lib.checkouts.findCheckout(lib.users.findUser(name), lib.items.findItem(title)).returnItem();
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Return CD");
+                    infoAlert.setHeaderText(name + " Returned " + title);
+                    infoAlert.setContentText("The User: " + name + " successfully Returned the CD: " + title + ".");
+                    infoAlert.showAndWait();
+                } catch (Exception ex) {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Failed To Return CD");
+                    aAlert.setHeaderText("Error: The User Was Unable To Return the CD.");
+                    aAlert.showAndWait();
+                }
+            }
+        });
 
         Scene scene = new Scene(returnCDGrid, 400, 200);
         returnCDStage.setScene(scene);
