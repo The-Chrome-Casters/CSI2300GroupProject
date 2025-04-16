@@ -111,18 +111,18 @@ public class JFX_Display extends Application {
         backButton.setLayoutY(20);
 
         Button addUser = new Button("Add New User");
-        addUser.setLayoutX(150);
+        addUser.setLayoutX(100);
         addUser.setLayoutY(300);
         addUser.setOnAction(e -> addUser(primaryStage));
 
         Button removeUser = new Button("Remove Existing User");
-        removeUser.setLayoutX(450);
+        removeUser.setLayoutX(300);
         removeUser.setLayoutY(300);
         removeUser.setOnAction(e -> removeUser(primaryStage));
 
         Button userListing = new Button("View Users");
-        userListing.setLayoutX(750);
-        userListing.setLayoutY(350);
+        userListing.setLayoutX(550);
+        userListing.setLayoutY(300);
         userListing.setOnAction(e -> userListing(primaryStage));
 
         Button userHistory = new Button("View User Checkouts");
