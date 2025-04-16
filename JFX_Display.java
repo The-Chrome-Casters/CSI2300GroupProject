@@ -21,18 +21,26 @@ import javafx.scene.control.TextField;
 public class JFX_Display extends Application {
     static Library lib = new Library();
 
-    static void saveLibrary() throws IOException {
-        FileOutputStream libOut = new FileOutputStream("library");
-        ObjectOutputStream libOOS = new ObjectOutputStream(libOut);
-        libOOS.writeObject(lib);
-        libOut.close();
+    static void saveLibrary() {
+        try {
+            FileOutputStream libOut = new FileOutputStream("library");
+            ObjectOutputStream libOOS = new ObjectOutputStream(libOut);
+            libOOS.writeObject(lib);
+            libOut.close();
+        } catch (IOException e ){
+            System.out.println("Could not save library");
+        }
     }
 
-    static void loadLibrary() throws IOException, ClassNotFoundException {
-        FileInputStream libIn = new FileInputStream ("library");
-        ObjectInputStream checkOIS = new ObjectInputStream(libIn);
-        lib = (Library)checkOIS.readObject();
-        libIn.close();
+    static void loadLibrary() { 
+        try {
+            FileInputStream libIn = new FileInputStream ("library");
+            ObjectInputStream checkOIS = new ObjectInputStream(libIn);
+            lib = (Library)checkOIS.readObject();
+            libIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Could not load library");
+        }
     }
 
     public static void main(String[] args) {
