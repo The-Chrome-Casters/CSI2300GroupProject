@@ -1,5 +1,3 @@
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -374,7 +372,7 @@ public class JFX_Display extends Application {
                 int age = Integer.parseInt(ageField.getText());
 
                 if (lib.users.findUser(name) == null) {
-                    Library.User id = lib.users.addUser(name, age);
+                    int id = lib.users.addUser(name, age).id;
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("User Information");
                     infoAlert.setHeaderText("New User Added:");
@@ -583,7 +581,7 @@ public class JFX_Display extends Application {
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("Current Checkouts");
                     infoAlert.setHeaderText("Displaying " + name + "'s Checkouts: ");
-                    infoAlert.setContentText(lib.checkouts.findUserCheckouts(lib.users.findUser(name)).toString()); // fix this, doesn't work properly
+                    infoAlert.setContentText(); // fix this
                     infoAlert.showAndWait();
                 }
             }
