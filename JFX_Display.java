@@ -220,20 +220,22 @@ public class JFX_Display extends Application {
                 int quantity = Integer.parseInt(quantityField.getText());
                 String publishDate = publishDateField.getText();
                 String publisher = publisherField.getText();
-
-                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
-                infoAlert.setTitle("Book Information");
-                infoAlert.setHeaderText("New Book Added:");
-                infoAlert.setContentText(
-                "Title: " + title + "\n" +
-                "Author: " + author + "\n" +
-                "Page Count: " + pageCount + "\n" +
-                "Quantity: " + quantity + "\n" +
-                "Publish Date: " + publishDate + "\n" +
-                "Publisher: " + publisher
-            );
-            infoAlert.showAndWait();
-
+        
+                if (lib.items.findItem(title) == null) {
+                    lib.items.addItem(Library.ItemType.BOOK, title);
+                    // add other stuff in for book items
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Book Information");
+                    infoAlert.setHeaderText("New Book Added:");
+                    infoAlert.setContentText("Title: " + title + "\n" + "Author: " + author + "\n" + "Page Count: " + pageCount + "\n" + "Quantity: " + quantity + "\n" + "Publish Date: " + publishDate + "\n" + "Publisher: " + publisher);
+                infoAlert.showAndWait();    
+                } else {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Book Already Exists");
+                    aAlert.setHeaderText("The Book Title You Inputted Already Exists");
+                    aAlert.showAndWait();
+                }
+                
             } catch (Exception ex) {
                 Alert errorAlert = new Alert(AlertType.ERROR);
                 errorAlert.setTitle("Invalid Input");
@@ -305,18 +307,28 @@ public class JFX_Display extends Application {
                 String publishDate = publishDateField.getText();
                 String productionCompany = productionCompanyField.getText();
 
-                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
-                infoAlert.setTitle("CD Information");
-                infoAlert.setHeaderText("New CD Added:");
-                infoAlert.setContentText(
-                "Title: " + title + "\n" +
-                "Author: " + author + "\n" +
-                "Time Count: " + timeCount + " minutes" +"\n" +
-                "Quantity: " + quantity + "\n" +
-                "Publish Date: " + publishDate + "\n" +
-                "Product Company: " + productionCompany
-            );
-            infoAlert.showAndWait();
+                if (lib.items.findItem(title) == null) {
+                    lib.items.addItem(Library.ItemType.CD, title);
+                    // add other stuff in for CD items
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("CD / DVD Information");
+                    infoAlert.setHeaderText("New CD / DVD Added:");
+                    infoAlert.setContentText(
+                    "Title: " + title + "\n" +
+                    "Author: " + author + "\n" +
+                    "Time Count: " + timeCount + " minutes" +"\n" +
+                    "Quantity: " + quantity + "\n" +
+                    "Publish Date: " + publishDate + "\n" +
+                    "Product Company: " + productionCompany
+                );
+                infoAlert.showAndWait();
+                } else {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("CD / DVD Already Exists");
+                    aAlert.setHeaderText("The CD / DVD Title You Inputted Already Exists");
+                    aAlert.showAndWait();
+                }
+                
 
             } catch (Exception ex) {
                 Alert errorAlert = new Alert(AlertType.ERROR);
@@ -362,7 +374,7 @@ public class JFX_Display extends Application {
                 int age = Integer.parseInt(ageField.getText());
 
                 if (lib.users.findUser(name) == null) {
-                    int id = lib.users.addUser(name, age).id;
+                    int id = lib.users.addUser(name, age);
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("User Information");
                     infoAlert.setHeaderText("New User Added:");
@@ -426,9 +438,6 @@ public class JFX_Display extends Application {
                     aAlert.showAndWait();
                 }
 
-                
-            
-
             } catch (Exception ex) {
                 Alert errorAlert = new Alert(AlertType.ERROR);
                 errorAlert.setTitle("Invalid Input");
@@ -460,6 +469,31 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         removeBookGrid.add(finishButton, 1, 1);
+        finishButton.setOnAction (e -> {
+            try {
+                removeBookStage.close();
+                String title = nameField.getText();
+                if (lib.items.findItem(title) != null) {
+                    lib.items.removeItem(lib.items.findItem(title).id);
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Successful");
+                    infoAlert.setHeaderText("You Successfully Removed the Item: " + title);
+                    infoAlert.showAndWait();
+                } else {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Item Doesn't Exist");
+                    aAlert.setHeaderText("The Item Title You Inputted Does Not Exist, and Thus Cannot Be Deleted.");
+                    aAlert.showAndWait();
+                }
+            
+            } catch (Exception ex) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setTitle("Invalid Input");
+                errorAlert.setHeaderText("Number Format Error");
+                errorAlert.setContentText("You have entered some information improperly.");
+                errorAlert.showAndWait();
+            } 
+            });
 
         Scene scene = new Scene(removeBookGrid, 400, 100);
         removeBookStage.setScene(scene);
@@ -482,6 +516,31 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         removeCDGrid.add(finishButton, 1, 1);
+        finishButton.setOnAction (e -> {
+            try {
+                removeCDStage.close();
+                String title = nameField.getText();
+                if (lib.items.findItem(title) != null) {
+                    lib.items.removeItem(lib.items.findItem(title).id);
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Successful");
+                    infoAlert.setHeaderText("You Successfully Removed the Item: " + title);
+                    infoAlert.showAndWait();
+                } else {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Item Doesn't Exist");
+                    aAlert.setHeaderText("The Item Title You Inputted Does Not Exist, and Thus Cannot Be Deleted.");
+                    aAlert.showAndWait();
+                }
+            
+            } catch (Exception ex) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setTitle("Invalid Input");
+                errorAlert.setHeaderText("Number Format Error");
+                errorAlert.setContentText("You have entered some information improperly.");
+                errorAlert.showAndWait();
+            } 
+            });
 
         Scene scene = new Scene(removeCDGrid, 400, 100);
         removeCDStage.setScene(scene);
