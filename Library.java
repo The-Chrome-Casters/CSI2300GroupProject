@@ -252,7 +252,12 @@ class Library implements Serializable{
                     }
                 }
             } else {
-                return checkouts.get(0);
+                if (checkouts.size() == 1) {
+                    return checkouts.get(0);
+                } else {
+                    System.out.println("could not find checkout for user");
+                    return null;
+                }
             }
 
             return null;

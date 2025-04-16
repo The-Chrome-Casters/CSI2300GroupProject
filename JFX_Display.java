@@ -1,3 +1,10 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -12,7 +19,22 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class JFX_Display extends Application {
-    Library lib = new Library();
+    static Library lib = new Library();
+
+    static void saveLibrary() throws IOException {
+        FileOutputStream libOut = new FileOutputStream("library");
+        ObjectOutputStream libOOS = new ObjectOutputStream(libOut);
+        libOOS.writeObject(lib);
+        libOut.close();
+    }
+
+    static void loadLibrary() throws IOException, ClassNotFoundException {
+        FileInputStream libIn = new FileInputStream ("library");
+        ObjectInputStream checkOIS = new ObjectInputStream(libIn);
+        lib = (Library)checkOIS.readObject();
+        libIn.close();
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -581,7 +603,19 @@ public class JFX_Display extends Application {
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("Current Checkouts");
                     infoAlert.setHeaderText("Displaying " + name + "'s Checkouts: ");
-                    infoAlert.setContentText(); // fix this
+                    
+                    ArrayList<Library.Checkout> checkouts = lib.checkouts.findUserCheckouts(lib.users.findUser(name));
+                    System.out.println(lib.users.findUser(name).name);
+                    System.out.println(lib.checkouts.findCheckout(lib.users.findUser(name), lib.items.findItem("book")).item.title);
+                    String content = "";
+                    if (checkouts.size() == 0) {
+                        content = "No checkouts could be found";
+                    } else {
+                        for (Library.Checkout check : checkouts) {
+                            content += check.item.title + "\n";
+                        }
+                    }
+                    infoAlert.setContentText(content); // fix this
                     infoAlert.showAndWait();
                 }
             }
