@@ -222,8 +222,7 @@ public class JFX_Display extends Application {
                 String publisher = publisherField.getText();
         
                 if (lib.items.findItem(title) == null) {
-                    lib.items.addItem(Library.ItemType.BOOK, title);
-                    // add other stuff in for book items
+                    lib.items.addItem(Library.ItemType.BOOK, title).setQuantity(quantity);
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("Book Information");
                     infoAlert.setHeaderText("New Book Added:");
@@ -308,8 +307,7 @@ public class JFX_Display extends Application {
                 String productionCompany = productionCompanyField.getText();
 
                 if (lib.items.findItem(title) == null) {
-                    lib.items.addItem(Library.ItemType.CD, title);
-                    // add other stuff in for CD items
+                    lib.items.addItem(Library.ItemType.CD, title).setQuantity(quantity);
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("CD / DVD Information");
                     infoAlert.setHeaderText("New CD / DVD Added:");
