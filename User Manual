@@ -1,0 +1,10 @@
+1). To run the program, enter the command "java Run" into the terminal.
+2). The GUI should show up, revealing buttons for managing users, books, and CDs. It should also show an exit button.
+
+  Warning : Exiting the program by other methods than the exit button may cause losses
+
+3). Manage Users brings up the menu with buttons to add a user, remove a user, and check a user's checkouts, along with a "back" button to return to the base GUI
+4). Manage Books brings up the menu with buttons to add a book, remove a book, checkout a book, or return a book, along with a "back" button
+5). Manage CDs brings up a very similar GUI to Manage Books, having buttons to add a CD, remove a CD, checkout a CD and return a CD, with a "back" button
+
+6). Each button in these GUIs brings up a final GUI that will ask specifically for all information it needs to perform its given function, making it very user friendly. 
