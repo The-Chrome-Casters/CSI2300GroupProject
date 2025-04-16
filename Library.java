@@ -156,6 +156,16 @@ class Library implements Serializable{
                 return false;
             }
         }
+
+        public ArrayList<Item> getAllOfType(ItemType type) {
+            ArrayList<Item> out = new ArrayList<>();
+            for (Item item : itemList) {
+                if (item.type.equals(type)) {
+                    out.add(item);
+                }
+            }
+            return out;
+        }
     }
 
     

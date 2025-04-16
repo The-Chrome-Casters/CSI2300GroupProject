@@ -45,7 +45,7 @@ public class JFX_Display extends Application {
             System.out.println(String.format("Loaded %d users, %d items, %d checkouts from database", 
                 numberOfUsers, numberOfItems, numberOfCheckouts));
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Could not load library");
+            System.out.println("Could not load library: " + e.getMessage());
         }
     }
 
@@ -163,12 +163,17 @@ public class JFX_Display extends Application {
         checkoutBook.setLayoutY(300);
         checkoutBook.setOnAction(e -> checkoutBook(primaryStage));
 
+        Button bookListing = new Button("View Books");
+        bookListing.setLayoutX(550);
+        bookListing.setLayoutY(350);
+        bookListing.setOnAction(e -> bookListing(primaryStage));
+
         Button returnBook = new Button("Return Book");
         returnBook.setLayoutX(750);
         returnBook.setLayoutY(300);
         returnBook.setOnAction(e -> returnBook(primaryStage));
  
-        bookPane.getChildren().addAll(backButton, addBook, removeBook, checkoutBook, returnBook, welcome);
+        bookPane.getChildren().addAll(backButton, addBook, removeBook, checkoutBook, bookListing, returnBook, welcome);
         Scene userScene = new Scene(bookPane, 1000, 700);
         primaryStage.setScene(userScene);
     }
@@ -608,9 +613,19 @@ public class JFX_Display extends Application {
         int userCount = userList.size();
 
         for (int i = 0; i < Math.min(userCount, 10); i++) {
+            
             Library.User currentUser = lib.users.userList.get(i);
-            Label newUserLabel = new Label(String.format("%s: born in %d; %d checked out items", 
-                currentUser.name, currentUser.birthYear, lib.checkouts.findUserCheckouts(currentUser).size()));
+            
+            int checkedOutItems = 0;
+            ArrayList<Library.Checkout> userCheckouts = lib.checkouts.findUserCheckouts(currentUser);
+            for (Library.Checkout check : userCheckouts) {
+                if (!check.isReturned) {
+                    checkedOutItems++;
+                }
+            }
+
+            Label newUserLabel = new Label(String.format("%s: born in %d; %d current checked out items", 
+                currentUser.name, currentUser.birthYear, checkedOutItems));
             userListingGrid.add(newUserLabel, 0, i+1);
         }
 
@@ -618,6 +633,34 @@ public class JFX_Display extends Application {
         Scene scene = new Scene(userListingGrid, 400, 500);
         userListingStage.setScene(scene);
         userListingStage.show();
+    }
+
+    private void bookListing(Stage primaryStage) {
+        Stage bookListingStage = new Stage();
+        bookListingStage.setTitle("User Information: ");
+        GridPane bookListingGrid = new GridPane();
+
+        bookListingGrid.setVgap(20);
+        bookListingGrid.setHgap(10);
+        bookListingGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("List of users: ");
+        bookListingGrid.add(nameLabel, 0, 0);
+
+        ArrayList<Library.Item> bookList = lib.items.getAllOfType(Library.ItemType.BOOK);
+        int itemCount = bookList.size();
+
+        for (int i = 0; i < Math.min(itemCount, 10); i++) {
+            Library.Item currentItem = bookList.get(i);
+            Label newUserLabel = new Label(String.format("%s: %d/%d available", 
+                currentItem.title, currentItem.available, currentItem.quantity));
+            bookListingGrid.add(newUserLabel, 0, i+1);
+        }
+
+
+        Scene scene = new Scene(bookListingGrid, 400, 500);
+        bookListingStage.setScene(scene);
+        bookListingStage.show();
     }
 
     private void userCheckout(Stage primaryStage) {
