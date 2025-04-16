@@ -149,27 +149,27 @@ public class JFX_Display extends Application {
         backButton.setLayoutY(20);
 
         Button addBook = new Button("Add Book");
-        addBook.setLayoutX(150);
+        addBook.setLayoutX(120);
         addBook.setLayoutY(300);
         addBook.setOnAction(e -> addBook(primaryStage));
 
         Button removeBook = new Button("Remove Book");
-        removeBook.setLayoutX(350);
+        removeBook.setLayoutX(290);
         removeBook.setLayoutY(300);
         removeBook.setOnAction(e -> removeBook(primaryStage));
 
         Button checkoutBook = new Button("Check Out Book");
-        checkoutBook.setLayoutX(550);
+        checkoutBook.setLayoutX(450);
         checkoutBook.setLayoutY(300);
         checkoutBook.setOnAction(e -> checkoutBook(primaryStage));
 
         Button bookListing = new Button("View Books");
-        bookListing.setLayoutX(550);
-        bookListing.setLayoutY(350);
+        bookListing.setLayoutX(630);
+        bookListing.setLayoutY(300);
         bookListing.setOnAction(e -> bookListing(primaryStage));
 
         Button returnBook = new Button("Return Book");
-        returnBook.setLayoutX(750);
+        returnBook.setLayoutX(780);
         returnBook.setLayoutY(300);
         returnBook.setOnAction(e -> returnBook(primaryStage));
  
@@ -192,26 +192,31 @@ public class JFX_Display extends Application {
         backButton.setLayoutY(20);
 
         Button addCD = new Button("Add CD");
-        addCD.setLayoutX(150);
+        addCD.setLayoutX(120);
         addCD.setLayoutY(300);
         addCD.setOnAction(e -> addCD(primaryStage));
 
         Button removeCD = new Button("Remove CD");
-        removeCD.setLayoutX(350);
+        removeCD.setLayoutX(290);
         removeCD.setLayoutY(300);
         removeCD.setOnAction(e -> removeCD(primaryStage));
 
         Button checkoutCD = new Button("Check Out CD");
-        checkoutCD.setLayoutX(550);
+        checkoutCD.setLayoutX(450);
         checkoutCD.setLayoutY(300);
         checkoutCD.setOnAction(e -> checkoutCD(primaryStage));
 
+        Button CDListing = new Button("View CD");
+        CDListing.setLayoutX(630);
+        CDListing.setLayoutY(300);
+        CDListing.setOnAction(e -> CDListing(primaryStage));
+
         Button returnCD = new Button("Return CD");
-        returnCD.setLayoutX(750);
+        returnCD.setLayoutX(780);
         returnCD.setLayoutY(300);
         returnCD.setOnAction(e -> returnCD(primaryStage));
  
-        cdPane.getChildren().addAll(backButton, addCD, removeCD, checkoutCD, returnCD, welcome);
+        cdPane.getChildren().addAll(backButton, addCD, removeCD, checkoutCD, returnCD, welcome, CDListing);
         Scene userScene = new Scene(cdPane, 1000, 700);
         primaryStage.setScene(userScene);
     }
@@ -606,7 +611,7 @@ public class JFX_Display extends Application {
         userListingGrid.setHgap(10);
         userListingGrid.setPadding(new javafx.geometry.Insets(10));
 
-        Label nameLabel = new Label ("List of users: ");
+        Label nameLabel = new Label ("List Of Users: ");
         userListingGrid.add(nameLabel, 0, 0);
 
         ArrayList<Library.User> userList = lib.users.userList;
@@ -637,14 +642,14 @@ public class JFX_Display extends Application {
 
     private void bookListing(Stage primaryStage) {
         Stage bookListingStage = new Stage();
-        bookListingStage.setTitle("User Information: ");
+        bookListingStage.setTitle("Book Information: ");
         GridPane bookListingGrid = new GridPane();
 
         bookListingGrid.setVgap(20);
         bookListingGrid.setHgap(10);
         bookListingGrid.setPadding(new javafx.geometry.Insets(10));
 
-        Label nameLabel = new Label ("List of users: ");
+        Label nameLabel = new Label ("List Of Books: ");
         bookListingGrid.add(nameLabel, 0, 0);
 
         ArrayList<Library.Item> bookList = lib.items.getAllOfType(Library.ItemType.BOOK);
@@ -661,6 +666,34 @@ public class JFX_Display extends Application {
         Scene scene = new Scene(bookListingGrid, 400, 500);
         bookListingStage.setScene(scene);
         bookListingStage.show();
+    }
+
+    private void CDListing(Stage primaryStage) {
+        Stage CDListingStage = new Stage();
+        CDListingStage.setTitle("CD Information: ");
+        GridPane CDListingGrid = new GridPane();
+
+        CDListingGrid.setVgap(20);
+        CDListingGrid.setHgap(10);
+        CDListingGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("List Of CD's: ");
+        CDListingGrid.add(nameLabel, 0, 0);
+
+        ArrayList<Library.Item> CDList = lib.items.getAllOfType(Library.ItemType.CD);
+        int itemCount = CDList.size();
+
+        for (int i = 0; i < Math.min(itemCount, 10); i++) {
+            Library.Item currentItem = CDList.get(i);
+            Label newUserLabel = new Label(String.format("%s: %d/%d available", 
+                currentItem.title, currentItem.available, currentItem.quantity));
+            CDListingGrid.add(newUserLabel, 0, i+1);
+        }
+
+
+        Scene scene = new Scene(CDListingGrid, 400, 500);
+        CDListingStage.setScene(scene);
+        CDListingStage.show();
     }
 
     private void userCheckout(Stage primaryStage) {
