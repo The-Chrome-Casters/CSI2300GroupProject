@@ -50,12 +50,12 @@ public class JFX_Display extends Application {
     }
 
     public static void main(String[] args) {
+        loadLibrary();
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        loadLibrary();
         primaryStage.setTitle("Library System");
         primaryStage.setWidth(1000);
         primaryStage.setHeight(500);
@@ -120,12 +120,17 @@ public class JFX_Display extends Application {
         removeUser.setLayoutY(300);
         removeUser.setOnAction(e -> removeUser(primaryStage));
 
+        Button userListing = new Button("View Users");
+        userListing.setLayoutX(750);
+        userListing.setLayoutY(350);
+        userListing.setOnAction(e -> userListing(primaryStage));
+
         Button userHistory = new Button("View User Checkouts");
         userHistory.setLayoutX(750);
         userHistory.setLayoutY(300);
         userHistory.setOnAction(e -> userCheckout(primaryStage));
  
-        userPane.getChildren().addAll(backButton, addUser, removeUser, userHistory, welcome);
+        userPane.getChildren().addAll(backButton, addUser, removeUser, userListing, userHistory, welcome);
         Scene userScene = new Scene(userPane, 1000, 700);
         primaryStage.setScene(userScene);
     }
@@ -587,6 +592,34 @@ public class JFX_Display extends Application {
         removeCDStage.show();
     }
 
+    private void userListing(Stage primaryStage) {
+        Stage userListingStage = new Stage();
+        userListingStage.setTitle("User Information: ");
+        GridPane userListingGrid = new GridPane();
+
+        userListingGrid.setVgap(20);
+        userListingGrid.setHgap(10);
+        userListingGrid.setPadding(new javafx.geometry.Insets(10));
+
+        Label nameLabel = new Label ("List of users: ");
+        userListingGrid.add(nameLabel, 0, 0);
+
+        ArrayList<Library.User> userList = lib.users.userList;
+        int userCount = userList.size();
+
+        for (int i = 0; i < Math.min(userCount, 10); i++) {
+            Library.User currentUser = lib.users.userList.get(i);
+            Label newUserLabel = new Label(String.format("%s: born in %d; %d checked out items", 
+                currentUser.name, currentUser.birthYear, lib.checkouts.findUserCheckouts(currentUser).size()));
+            userListingGrid.add(newUserLabel, 0, i+1);
+        }
+
+
+        Scene scene = new Scene(userListingGrid, 400, 500);
+        userListingStage.setScene(scene);
+        userListingStage.show();
+    }
+
     private void userCheckout(Stage primaryStage) {
         Stage userCheckoutStage = new Stage();
         userCheckoutStage.setTitle("User Information: ");
@@ -606,38 +639,44 @@ public class JFX_Display extends Application {
         finishButton.setOnAction(e -> {
             userCheckoutStage.close();
             String name = nameField.getText();
-
-            if (lib.users.findUser(name) == null) {
-                Alert aAlert = new Alert(Alert.AlertType.ERROR);
-                aAlert.setTitle("User Doesn't Exist");
-                aAlert.setHeaderText("The Users Name You Inputted Does Not Currently Exist");
-                aAlert.showAndWait();
-            } else {
-                if (lib.checkouts.findUserCheckouts(lib.users.findUser(name)) == null) {
-                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
-                    infoAlert.setTitle("Current Checkouts");
-                    infoAlert.setHeaderText("No User Checkouts: ");
-                    infoAlert.setContentText("The User You Inputted Currently Has No Checked Out Books or CD's.");
-                    infoAlert.showAndWait();
+            try {
+                if (lib.users.findUser(name) == null) {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("User Doesn't Exist");
+                    aAlert.setHeaderText("The Users Name You Inputted Does Not Currently Exist");
+                    aAlert.showAndWait();
                 } else {
-                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
-                    infoAlert.setTitle("Current Checkouts");
-                    infoAlert.setHeaderText("Displaying " + name + "'s Checkouts: ");
-                    
-                    ArrayList<Library.Checkout> checkouts = lib.checkouts.findUserCheckouts(lib.users.findUser(name));
-                    System.out.println(lib.users.findUser(name).name);
-                    System.out.println(lib.checkouts.findCheckout(lib.users.findUser(name), lib.items.findItem("book")).item.title);
-                    String content = "";
-                    if (checkouts.size() == 0) {
-                        content = "No checkouts could be found";
+                    if (lib.checkouts.findUserCheckouts(lib.users.findUser(name)) == null) {
+                        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                        infoAlert.setTitle("Current Checkouts");
+                        infoAlert.setHeaderText("No User Checkouts: ");
+                        infoAlert.setContentText("The User You Inputted Currently Has No Checked Out Books or CD's.");
+                        infoAlert.showAndWait();
                     } else {
-                        for (Library.Checkout check : checkouts) {
-                            content += check.item.title + "\n";
+                        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                        infoAlert.setTitle("Current Checkouts");
+                        infoAlert.setHeaderText("Displaying " + name + "'s Checkouts: ");
+                        
+                        ArrayList<Library.Checkout> checkouts = lib.checkouts.findUserCheckouts(lib.users.findUser(name));
+                        System.out.println(lib.users.findUser(name).name);
+                        System.out.println(lib.checkouts.findCheckout(lib.users.findUser(name), lib.items.findItem("book")).item.title);
+                        String content = "";
+                        if (checkouts.size() == 0) {
+                            content = "No checkouts could be found";
+                        } else {
+                            for (Library.Checkout check : checkouts) {
+                                content += check.item.title + "\n";
+                            }
                         }
+                        infoAlert.setContentText(content); // fix this
+                        infoAlert.showAndWait();
                     }
-                    infoAlert.setContentText(content); // fix this
-                    infoAlert.showAndWait();
                 }
+            } catch (Exception ex) {
+                Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                aAlert.setTitle("User Doesn't Have Any Checkouts");
+                aAlert.setHeaderText("The User Doesn't Have any Checkouts.");
+                aAlert.showAndWait();
             }
             
         });
