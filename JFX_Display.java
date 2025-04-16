@@ -356,7 +356,7 @@ public class JFX_Display extends Application {
         Label nameLabel = new Label ("Name (First and Last) : ");
         TextField nameField = new TextField();
 
-        Label ageLabel = new Label ("Age: ");
+        Label ageLabel = new Label ("Birth Year: ");
         TextField ageField = new TextField();
 
         addUserGrid.add(nameLabel, 0, 0);
@@ -374,11 +374,11 @@ public class JFX_Display extends Application {
                 int age = Integer.parseInt(ageField.getText());
 
                 if (lib.users.findUser(name) == null) {
-                    int id = lib.users.addUser(name, age);
+                    Library.User id = lib.users.addUser(name, age);
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setTitle("User Information");
                     infoAlert.setHeaderText("New User Added:");
-                    infoAlert.setContentText("Name: " + name + "\n" + "Age: " + age + "\n" + "ID: " + id + "\n");
+                    infoAlert.setContentText("Name: " + name + "\n" + "Birth Year: " + age + "\n" + "ID: " + id + "\n");
                     infoAlert.showAndWait();
                 } else {
                     Alert aAlert = new Alert(Alert.AlertType.ERROR);
@@ -563,6 +563,32 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         userCheckoutGrid.add(finishButton, 1, 1);
+        finishButton.setOnAction(e -> {
+            userCheckoutStage.close();
+            String name = nameField.getText();
+
+            if (lib.users.findUser(name) == null) {
+                Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                aAlert.setTitle("User Doesn't Exist");
+                aAlert.setHeaderText("The Users Name You Inputted Does Not Currently Exist");
+                aAlert.showAndWait();
+            } else {
+                if (lib.checkouts.findUserCheckouts(lib.users.findUser(name)) == null) {
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Current Checkouts");
+                    infoAlert.setHeaderText("No User Checkouts: ");
+                    infoAlert.setContentText("The User You Inputted Currently Has No Checked Out Books or CD's.");
+                    infoAlert.showAndWait();
+                } else {
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Current Checkouts");
+                    infoAlert.setHeaderText("Displaying " + name + "'s Checkouts: ");
+                    infoAlert.setContentText(lib.checkouts.findUserCheckouts(lib.users.findUser(name)).toString()); // fix this, doesn't work properly
+                    infoAlert.showAndWait();
+                }
+            }
+            
+        });
 
         Scene scene = new Scene(userCheckoutGrid, 400, 100);
         userCheckoutStage.setScene(scene);
@@ -590,6 +616,32 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         checkoutBookGrid.add(finishButton, 1, 2);
+        finishButton.setOnAction(e -> {
+            checkoutBookStage.close();
+            String name = nameField.getText();
+            String title = titleField.getText();
+
+            if (lib.users.findUser(name) == null || lib.items.findItem(title) == null) {
+                Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                aAlert.setTitle("User / Title Doesn't Exist");
+                aAlert.setHeaderText("The User or Book Title You Inputted Doesn't Exist. Please Ensure Your Entering Proper Information.");
+                aAlert.showAndWait();
+            } else {
+                try {
+                    lib.checkouts.checkoutItem(lib.users.findUser(name), lib.items.findItem(title));
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("Book Checkout");
+                    infoAlert.setHeaderText(name + " Checked Out " + title);
+                    infoAlert.setContentText("The User: " + name + " successfully checked out a book: " + title + ".");
+                    infoAlert.showAndWait();
+                } catch (Exception ex) {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Failed To Checkout");
+                    aAlert.setHeaderText("Error: The User Was Unable To Checkout Book.");
+                    aAlert.showAndWait();
+                }
+            }
+        });
 
         Scene scene = new Scene(checkoutBookGrid, 400, 200);
         checkoutBookStage.setScene(scene);
@@ -617,6 +669,33 @@ public class JFX_Display extends Application {
 
         Button finishButton = new Button ("Finish");
         checkoutCDGrid.add(finishButton, 1, 2);
+        finishButton.setOnAction(e -> {
+            checkoutCDStage.close();
+            String name = nameField.getText();
+            String title = titleField.getText();
+
+            if (lib.users.findUser(name) == null || lib.items.findItem(title) == null) {
+                Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                aAlert.setTitle("User / Title Doesn't Exist");
+                aAlert.setHeaderText("The User or CD Title You Inputted Doesn't Exist. Please Ensure Your Entering Proper Information.");
+                aAlert.showAndWait();
+            } else {
+                try {
+                    lib.checkouts.checkoutItem(lib.users.findUser(name), lib.items.findItem(title));
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                    infoAlert.setTitle("CD Checkout");
+                    infoAlert.setHeaderText(name + " Checked Out " + title);
+                    infoAlert.setContentText("The User: " + name + " successfully checked out a CD: " + title + ".");
+                    infoAlert.showAndWait();
+                } catch (Exception ex) {
+                    Alert aAlert = new Alert(Alert.AlertType.ERROR);
+                    aAlert.setTitle("Failed To Checkout");
+                    aAlert.setHeaderText("Error: The User Was Unable To Checkout CD.");
+                    aAlert.showAndWait();
+                }
+            }
+        });
+        
 
         Scene scene = new Scene(checkoutCDGrid, 400, 200);
         checkoutCDStage.setScene(scene);
