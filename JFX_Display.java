@@ -734,8 +734,6 @@ public class JFX_Display extends Application {
                         infoAlert.setHeaderText("Displaying " + name + "'s Checkouts: ");
                         
                         ArrayList<Library.Checkout> checkouts = lib.checkouts.findUserCheckouts(lib.users.findUser(name));
-                        System.out.println(lib.users.findUser(name).name);
-                        System.out.println(lib.checkouts.findCheckout(lib.users.findUser(name), lib.items.findItem("book")).item.title);
                         String content = "";
                         if (checkouts.size() == 0) {
                             content = "No checkouts could be found";
@@ -744,7 +742,7 @@ public class JFX_Display extends Application {
                                 content += check.item.title + "\n";
                             }
                         }
-                        infoAlert.setContentText(content); // fix this
+                        infoAlert.setContentText(content);
                         infoAlert.showAndWait();
                     }
                 }
@@ -753,6 +751,7 @@ public class JFX_Display extends Application {
                 aAlert.setTitle("User Doesn't Have Any Checkouts");
                 aAlert.setHeaderText("The User Doesn't Have any Checkouts.");
                 aAlert.showAndWait();
+                System.out.println(ex.getMessage());
             }
             
         });
