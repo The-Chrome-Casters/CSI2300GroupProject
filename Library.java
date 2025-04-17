@@ -14,41 +14,6 @@ class Library implements Serializable{
         items = new ItemHandler();
         checkouts = new CheckoutHandler();
     }
-
-    
-
-    // THESE DONT WORK
-    // void saveDatabase() throws IOException {
-    //     FileOutputStream usersFout = new FileOutputStream ("users");
-    //     FileOutputStream itemsFout = new FileOutputStream ("items");
-    //     FileOutputStream checkFout = new FileOutputStream ("checkouts");
-    //     ObjectOutputStream usersOOS = new ObjectOutputStream(usersFout);
-    //     ObjectOutputStream itemsOOS = new ObjectOutputStream(itemsFout);
-    //     ObjectOutputStream checkOOS = new ObjectOutputStream(checkFout);
-    //     usersOOS.writeObject(this.users);
-    //     itemsOOS.writeObject(this.items);
-    //     checkOOS.writeObject(this.checkouts);
-    //     usersFout.close();
-    //     itemsFout.close();
-    //     checkOOS.close();
-    // }
-
-    // void loadDatabase() throws IOException, ClassNotFoundException {
-    //     FileInputStream usersFin = new FileInputStream ("users");
-    //     FileInputStream itemsFin = new FileInputStream ("items");
-    //     FileInputStream checkFin = new FileInputStream ("checkouts");
-    //     ObjectInputStream usersOIS = new ObjectInputStream(usersFin);
-    //     ObjectInputStream itemsOIS = new ObjectInputStream(itemsFin);
-    //     ObjectInputStream checkOIS = new ObjectInputStream(checkFin);
-    //     this.users = (UserHandler)usersOIS.readObject();
-    //     this.items = (ItemHandler)itemsOIS.readObject();
-    //     this.checkouts = (CheckoutHandler)checkOIS.readObject();
-    //     usersFin.close();
-    //     itemsFin.close();
-    //     checkFin.close();
-    // }
-
-
   
     class UserHandler implements Serializable {
         ArrayList<User> userList = new ArrayList<>();
